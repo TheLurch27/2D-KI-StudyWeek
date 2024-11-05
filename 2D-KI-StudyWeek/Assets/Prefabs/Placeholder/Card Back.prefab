@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5933635934575542542}
   - component: {fileID: 4106376873263004469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Card Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
