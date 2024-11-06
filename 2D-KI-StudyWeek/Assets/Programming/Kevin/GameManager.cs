@@ -7,28 +7,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("Player Settings")]
-    public List<GameObject> cardDeck; // Alle Karten-Prefabs im Deck
-    public GameObject cardBackPrefab; // Das Prefab der verdeckten Karte
-    public Transform cardDeckSpawn; // Der Ort, wo Karten gespawnt werden
-    public Transform playerCardSlot1; // Slot für die erste Karte und ungerade Positionen
-    public Transform playerCardSlot2; // Slot für die zweite Karte und gerade Positionen
-    public TMP_Text playerScoreText; // UI-Text zur Anzeige des Punktestands
+    public List<GameObject> cardDeck;
+    public GameObject cardBackPrefab;
+    public Transform cardDeckSpawn;
+    public Transform playerCardSlot1;
+    public Transform playerCardSlot2;
+    public TMP_Text playerScoreText;
 
-    [Header("Card Movement Settings")]
-    public float moveSpeed = 1.1f; // Geschwindigkeit der Kartenbewegung, im Inspector anpassbar
+    public float moveSpeed = 1.1f;
 
-    [Header("Audio Settings")]
-    public List<AudioClip> voiceClips; // Liste der AudioClips für die Zahlen 1-30
-    private AudioSource audioSource; // AudioSource zum Abspielen der Clips
+    public List<AudioClip> voiceClips;
+    private AudioSource audioSource;
 
     private Dictionary<int, AudioClip> audioClipDictionary = new Dictionary<int, AudioClip>();
 
-    public int playerScore = 0; // Die aktuelle Punktzahl des Spielers
-    private int cardCount = 0; // Hält die Anzahl der gezogenen Karten
-    private List<int> playerCardValues = new List<int>(); // Speichert die Werte der gezogenen Karten für die Berechnung
+    public int playerScore = 0;
+    private int cardCount = 0;
+    private List<int> playerCardValues = new List<int>();
 
-    // Öffentlich zugängliche Property für playerCardValues
     public List<int> PlayerCardValues
     {
         get { return playerCardValues; }
@@ -50,17 +46,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        InitializeAudioClips(); // Initialisiert das Dictionary für die AudioClips
-        DrawCard(); // Teilt die erste Karte aus, sobald die Szene geladen wird
-        UpdateScoreUI(); // Zeigt den Punktestand an, wenn das Spiel startet
+        InitializeAudioClips();
+        DrawCard();
+        UpdateScoreUI();
     }
 
     private void InitializeAudioClips()
     {
-        // Mappt jeden Punktestand (1-30) auf den entsprechenden AudioClip
         foreach (AudioClip clip in voiceClips)
         {
-            string clipName = clip.name.ToLower(); // Namen in Kleinbuchstaben konvertieren für eine einfachere Zuordnung
+            string clipName = clip.name.ToLower();
             int score = ConvertClipNameToScore(clipName);
             if (score != -1)
             {
@@ -71,7 +66,6 @@ public class GameManager : MonoBehaviour
 
     private int ConvertClipNameToScore(string clipName)
     {
-        // Wandelt den ausgeschriebenen Namen in eine Zahl um
         Dictionary<string, int> numberMapping = new Dictionary<string, int>()
         {
             { "one", 1 }, { "two", 2 }, { "three", 3 }, { "four", 4 }, { "five", 5 },
@@ -88,7 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void DrawCard()
     {
-        if (cardDeck.Count == 0) return; // Keine Karten mehr im Deck
+        if (cardDeck.Count == 0) return;
 
         GameObject drawnCard = Instantiate(cardBackPrefab, cardDeckSpawn.position, Quaternion.identity);
         drawnCard.layer = 3;
@@ -195,7 +189,7 @@ public class GameManager : MonoBehaviour
     private void UpdateScoreUI()
     {
         playerScoreText.text = playerScore.ToString();
-        PlayScoreAudio(playerScore); // Spielt den passenden Audio-Clip ab
+        PlayScoreAudio(playerScore);
     }
 
     private void PlayScoreAudio(int score)
